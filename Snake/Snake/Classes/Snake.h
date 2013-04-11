@@ -27,8 +27,8 @@ public:
     
     void refreshSnake();
     
-    void moveToTarget(int nextMoveX, int nextMoveY, int targetX, int targetY);
-
+    bool moveToTarget(int nextMoveX, int nextMoveY, int targetX, int targetY);
+    bool isPointInBody(CCPoint p);
 };
 
 #endif /* defined(__Snake__Snake__) */

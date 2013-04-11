@@ -12,6 +12,7 @@
 
 Map::Map()
 :m_pSnake(NULL)
+,m_pTarget(NULL)
 {
     
 }
@@ -19,6 +20,7 @@ Map::Map()
 Map::~Map()
 {
     CC_SAFE_RELEASE_NULL(m_pSnake);
+    CC_SAFE_RELEASE_NULL(m_pTarget);
 }
 
 bool Map::init()
@@ -30,16 +32,16 @@ bool Map::init()
     this->setContentSize(CCSizeMake(640, 960));
     
     m_pointTarget = CCPoint(2, 2);
-    CCSprite *target = CCSprite::create("target.png");
-    target->setPosition(ccp(2 * 50, 2 * 50));
-    this->addChild(target);
+    this->setTarget(CCSprite::create("snake.png"));
+    this->getTarget()->setPosition(ccp(m_pointTarget.x * 25, m_pointTarget.y * 25));
+    this->addChild(this->getTarget());
     
     this->setSnake(Snake::create());
     this->addChild(this->getSnake());
-    this->setWidth(50);
-    this->setHeight(50);
+    this->setWidth(10);
+    this->setHeight(10);
     
-    this->schedule(schedule_selector(Map::mapUpdate), 0.5f);
+    this->schedule(schedule_selector(Map::mapUpdate), 0.3f);
     return true;
 }
 
@@ -83,8 +85,44 @@ void Map::mapUpdate(float dt)
     {
         AstarItem *nextMove = (AstarItem*) path->objectAtIndex(1);
     
-        m_pSnake->moveToTarget(nextMove->getcol(), nextMove->getrow(), m_pointTarget.x, m_pointTarget.y);
+        if (m_pSnake->moveToTarget(nextMove->getcol(), nextMove->getrow(), m_pointTarget.x, m_pointTarget.y))
+        {
+            genNewTarget();
+        }
     }
     
     delete m_pAStar;
+}
+
+void Map::genNewTarget()
+{
+    srand(time(NULL));
+    int index = random() % getAvilablePositionCount();
+    
+    int count = 0;
+    for (int x = 0; x < this->getWidth(); x ++)
+    {
+        for (int y = 0; y < this->getHeight(); y ++)
+        {
+            if (m_pSnake->isPointInBody(ccp(x, y)))
+            {
+                continue;
+            }
+            else
+            {
+                if (count == index)
+                {
+                    m_pointTarget.x = x;
+                    m_pointTarget.y = y;
+                }
+            }
+            count ++;
+        }
+    }
+    this->getTarget()->setPosition(ccp(m_pointTarget.x * 25, m_pointTarget.y * 25));
+}
+
+int Map::getAvilablePositionCount()
+{
+    return this->getWidth() * this->getHeight() - m_pSnake->getSnakeBody()->count();
 }

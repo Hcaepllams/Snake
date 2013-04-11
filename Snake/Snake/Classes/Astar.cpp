@@ -1,6 +1,12 @@
 #include "Astar.h"
 #include "Astaritem.h"
 
+
+static int findMinF(const CCObject* p1, const CCObject* p2)
+{
+    return ((AstarItem*)p1)->getf() < ((AstarItem*)p2)->getf();
+}
+
 Astar::Astar(void)
 {
 }
@@ -36,7 +42,11 @@ CCArray *Astar::findPath(int curX, int curY, int aimX, int aimY, Map* passmap)
 	while(open->count() > 1){
 	   fromopentoclose();//open和close列表管理
 	   int fatherid = close->count() - 1;
-	   if(abs(aimCol - ((AstarItem *)close->objectAtIndex(fatherid))->getcol()) <= 1 && abs(aimRow - ((AstarItem *)close->objectAtIndex(fatherid))->getrow()) <= 1){
+        int mycol = ((AstarItem *)close->objectAtIndex(fatherid))->getcol();
+        int myrow = ((AstarItem *)close->objectAtIndex(fatherid))->getrow();
+	   if(  (abs(aimCol - ((AstarItem *)close->objectAtIndex(fatherid))->getcol()) <= 1 && aimRow == myrow)
+          ||(abs(aimRow - ((AstarItem *)close->objectAtIndex(fatherid))->getrow()) <= 1 && aimCol == mycol)){
+        //if (mycol == aimCol && myrow == aimRow){
 		   getpath();
 		   break;
 	   }else{
@@ -55,6 +65,12 @@ CCArray *Astar::findPath(int curX, int curY, int aimX, int aimY, Map* passmap)
 	       temp->setpos(aimCol,aimRow);
 		   path->addObject(temp);
 		}
+        CCObject *obj = NULL;
+        CCARRAY_FOREACH(path, obj)
+        {
+            AstarItem *item = (AstarItem*)obj;
+            CCLog("%i, %i", item->getcol(), item->getrow());
+        }
 		return path;
 	}
 }
@@ -182,30 +198,41 @@ void Astar::removefromopen()
 	last = open->count() - 1;
     //堆排序
 	int head = 1;
-	while((head * 2 + 1) <= last){
-	   int child1 = head * 2;
-	   int child2 = head * 2 + 1;
-	   int childmin = (((AstarItem *)open->objectAtIndex(child1))->getf() < ((AstarItem *)open->objectAtIndex(child2))->getf() ? child1:child2);
-	   if(((AstarItem *)open->objectAtIndex(head))->getf() <= ((AstarItem *)open->objectAtIndex(childmin))->getf()){
-	      break;
-	   }
-       //AstarItem * temp = (AstarItem *)open->objectAtIndex(childmin);
-	   open->replaceObjectAtIndex(childmin,open->objectAtIndex(head),false);
-       //temp->release();
-	}
+//	while((head * 2) <= last){
+//        int childmin = 0;
+//        int child1 = head * 2;
+//        int child2 = head * 2 + 1;
+//        if (head * 2 + 1 <= last)
+//        {
+//            childmin = (((AstarItem *)open->objectAtIndex(child1))->getf() < ((AstarItem *)open->objectAtIndex(child2))->getf() ? child1:child2);
+//        }
+//        else
+//        {
+//            childmin = child1;
+//        }
+//        if(((AstarItem *)open->objectAtIndex(head))->getf() <= ((AstarItem *)open->objectAtIndex(childmin))->getf()){
+//          break;
+//        }
+//       //AstarItem * temp = (AstarItem *)open->objectAtIndex(childmin);
+//	   open->replaceObjectAtIndex(childmin,open->objectAtIndex(head),false);
+//       //temp->release();
+//	}
+    std::sort(open->data->arr, open->data->arr + open->data->num, findMinF);
+
 }
 void Astar::resetSort(int last)
 {
     //根据步长排序，堆排序
-	while(last > 1){
-	   int half = last/2;
-	   if(((AstarItem *)open->objectAtIndex(half))->getf() <= ((AstarItem *)open->objectAtIndex(last))->getf())
-		   break;
-	   AstarItem * temp = (AstarItem *)open->objectAtIndex(last);
-	   open->replaceObjectAtIndex(last,open->objectAtIndex(half),false);
-	   open->replaceObjectAtIndex(half,temp,true);
-	   temp->release();
-	}
+//	while(last > 1){
+//	   int half = last/2;
+//	   if(((AstarItem *)open->objectAtIndex(half))->getf() <= ((AstarItem *)open->objectAtIndex(last))->getf())
+//		   break;
+//	   AstarItem * temp = (AstarItem *)open->objectAtIndex(last);
+//	   open->replaceObjectAtIndex(last,open->objectAtIndex(half),false);
+//	   open->replaceObjectAtIndex(half,temp,true);
+//	   temp->release();
+//	}
+    std::sort(open->data->arr, open->data->arr + open->data->num, findMinF);
 }
 int Astar::getG(int col,int row,int id)
 {

@@ -49,23 +49,22 @@ void Snake::refreshSnake()
     CCARRAY_FOREACH(m_pSnakeBody, obj)
     {
         CCPoint *point = (CCPoint*)obj;
-        CCSprite* pSprite = CCSprite::create("Icon-Small-50.png");
-        float gapX = pSprite->getContentSize().width;
-        float gapY = pSprite->getContentSize().height;
+        CCSprite* pSprite = CCSprite::create("snake.png");
+        float gapX = 25;
+        float gapY = 25;
         pSprite->setPosition(ccp(point->x * gapX, point->y * gapY));
         this->addChild(pSprite);
     }
 }
 
-void Snake::moveToTarget(int nextMoveX, int nextMoveY, int targetX, int targetY)
+bool Snake::moveToTarget(int nextMoveX, int nextMoveY, int targetX, int targetY)
 {
     CCPoint *p = new CCPoint(nextMoveX, nextMoveY);
     m_pSnakeBody->insertObject(p, 0);
-    
+    bool returnValue = false;
     if (nextMoveX == targetX && nextMoveY == targetY) // Hit the target!
     {
-        //Do nothing.
-        CCLog ("NEW");
+        returnValue = true;
     }
     else
     {
@@ -74,4 +73,19 @@ void Snake::moveToTarget(int nextMoveX, int nextMoveY, int targetX, int targetY)
     }
     
     this->refreshSnake();
+    return returnValue;
+}
+
+bool Snake::isPointInBody(CCPoint p)
+{
+    CCObject *obj = NULL;
+    CCARRAY_FOREACH(m_pSnakeBody, obj)
+    {
+        CCPoint *point = (CCPoint*)obj;
+        if (point->x == p.x && point->y == p.y)
+        {
+            return true;
+        }
+    }
+    return false;
 }

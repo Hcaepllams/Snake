@@ -37,9 +37,13 @@ public:
     
     CCPoint m_pointTarget;
     
+    void genNewTarget();
+    int getAvilablePositionCount();
+    
 CC_SYNTHESIZE(int, m_iWidth, Width);
 CC_SYNTHESIZE(int, m_iHeight, Height);
 CC_SYNTHESIZE_RETAIN(Snake*, m_pSnake, Snake);
+CC_SYNTHESIZE_RETAIN(CCSprite*, m_pTarget, Target);
 
 };
 

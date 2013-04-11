@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2F9B75EB17171C96000A3C54 /* snake.png in Resources */ = {isa = PBXBuildFile; fileRef = 2F9B75EA17171C96000A3C54 /* snake.png */; };
 		BE4580651716ACB600C6BF35 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE4580641716ACB600C6BF35 /* QuartzCore.framework */; };
 		BE4580671716ACB600C6BF35 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE4580661716ACB600C6BF35 /* OpenGLES.framework */; };
 		BE4580691716ACB600C6BF35 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE4580681716ACB600C6BF35 /* OpenAL.framework */; };
@@ -210,6 +211,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2F9B75EA17171C96000A3C54 /* snake.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = snake.png; path = Resources/snake.png; sourceTree = "<group>"; };
 		BE4580611716ACB600C6BF35 /* Snake.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Snake.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE4580641716ACB600C6BF35 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		BE4580661716ACB600C6BF35 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -717,6 +719,7 @@
 		BE4580751716ACB600C6BF35 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2F9B75EA17171C96000A3C54 /* snake.png */,
 				BEB2BE731716D06C00EE3797 /* target.png */,
 				BE4580761716ACB600C6BF35 /* CloseNormal.png */,
 				BE4580781716ACB600C6BF35 /* CloseSelected.png */,
@@ -1609,6 +1612,7 @@
 				BE45808B1716ACB600C6BF35 /* iTunesArtwork in Resources */,
 				BE45811D1716ACBA00C6BF35 /* ChangeLog in Resources */,
 				BEB2BE741716D06C00EE3797 /* target.png in Resources */,
+				2F9B75EB17171C96000A3C54 /* snake.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1829,6 +1833,7 @@
 					"\"$(PROJECT_NAME)/libs/cocos2dx/platform/ios\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/Snake/libs/cocos2dx/platform/third_party/ios/libraries\"";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1857,6 +1862,7 @@
 					"\"$(PROJECT_NAME)/libs/cocos2dx/platform/ios\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/Snake/libs/cocos2dx/platform/third_party/ios/libraries\"";
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

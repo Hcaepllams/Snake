@@ -73,6 +73,7 @@ bool HelloWorld::init()
 //    this->addChild(pSprite, 0);
     
     Map *map = Map::create();
+    map->setPosition(ccp(300, 300));
     this->addChild(map);
     
     return true;
